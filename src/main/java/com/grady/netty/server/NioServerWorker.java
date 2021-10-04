@@ -60,6 +60,7 @@ public class NioServerWorker extends AbstractNioSelector implements Worker {
                 ByteBuffer outBuffer = ByteBuffer.wrap(response.getBytes());
                 // 将消息回送给客户端
                 channel.write(outBuffer);
+                channel.close();
                 key.cancel();
             }
         }

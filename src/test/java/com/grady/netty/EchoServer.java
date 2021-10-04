@@ -11,7 +11,7 @@ public class EchoServer {
 
     public static void main(String[] args) {
         ExecutorService bossExecutor = Executors.newCachedThreadPool();
-        ExecutorService workExecutor = Executors.newSingleThreadExecutor();
+        ExecutorService workExecutor = Executors.newCachedThreadPool();
         NioServerSocketChannelFactory factory = new NioServerSocketChannelFactory(bossExecutor, workExecutor);
         ServerBootstrap serverBootstrap = new ServerBootstrap(factory);
         serverBootstrap.bind(new InetSocketAddress(8080));

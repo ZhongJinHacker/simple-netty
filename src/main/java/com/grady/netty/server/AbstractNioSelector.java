@@ -55,6 +55,8 @@ public abstract class AbstractNioSelector implements Runnable {
     @Override
     public void run() {
         Thread.currentThread().setName(this.threadName);
+        System.out.println("curent work thead: " + Thread.currentThread().getName());
+
 
         while (true) {
             try {
@@ -64,6 +66,7 @@ public abstract class AbstractNioSelector implements Runnable {
                 process(selector);
             } catch (Exception e) {
                 // ignore
+                e.printStackTrace();
             }
         }
     }
@@ -79,7 +82,7 @@ public abstract class AbstractNioSelector implements Runnable {
     }
 
     protected final void registerTask(Runnable task) {
-        taskQueue.add(task);
+        taskQueue.offer(task);
         if (this.selector != null) {
             if (wakenUp.compareAndSet(false, true)) {
                 selector.wakeup();
