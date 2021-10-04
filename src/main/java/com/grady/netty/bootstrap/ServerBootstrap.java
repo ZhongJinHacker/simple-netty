@@ -1,6 +1,7 @@
 package com.grady.netty.bootstrap;
 
 import com.grady.netty.server.Boss;
+import com.grady.netty.server.NioEventLoopGroup;
 import com.grady.netty.server.NioServerSocketChannelFactory;
 
 import java.net.SocketAddress;
@@ -10,8 +11,7 @@ public class ServerBootstrap {
 
     private NioServerSocketChannelFactory factory;
 
-    public ServerBootstrap(NioServerSocketChannelFactory factory) {
-        this.factory = factory;
+    public ServerBootstrap() {
     }
 
     public void bind(final SocketAddress localAddress){
@@ -28,5 +28,12 @@ public class ServerBootstrap {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void group(NioEventLoopGroup bossGroup, NioEventLoopGroup workerGroup) {
+        this.factory = new NioServerSocketChannelFactory(bossGroup.getExecutorService(),
+                bossGroup.getNThread(),
+                workerGroup.getExecutorService(),
+                workerGroup.getNThread());
     }
 }

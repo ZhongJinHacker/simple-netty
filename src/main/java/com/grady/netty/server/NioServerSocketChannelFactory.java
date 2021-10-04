@@ -18,6 +18,14 @@ public class NioServerSocketChannelFactory {
         bossPool = new NioServerBossPool(bossExecutor, 1, this);
     }
 
+    public NioServerSocketChannelFactory(Executor bossExecutor,
+                                         int bossCount,
+                                         Executor workerExecutor,
+                                         int workerCount) {
+        workerPool = new NioServerWorkerPool(workerExecutor, workerCount, this);
+        bossPool = new NioServerBossPool(bossExecutor, bossCount, this);
+    }
+
     public Boss nextBoss() {
         return bossPool.nextBoss();
     }
